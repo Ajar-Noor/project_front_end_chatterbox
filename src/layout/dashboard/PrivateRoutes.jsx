@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { connectSocket } from "../../Socket"; // Import connectSocket, not socket
 import { toast } from "react-toastify";
@@ -12,31 +12,25 @@ const PrivateRoutes = () => {
   const token = window.localStorage.getItem("token");
 
   useEffect(() => {
-    let socketInstance; // Declare a variable to store the socket instance
+    let socketInstance;
 
     if (userIsLoggedIn) {
-      window.onload = function () {
-        if (!window.location.hash) {
-          window.location = window.location + "#loaded";
-          window.location.reload();
-        }
-      };
-      window.reload();
-
       // Connect the socket and store the instance in the socketInstance variable
       socketInstance = connectSocket(token);
 
-      // new friend request
-
-      socketInstance.on("new_friend_request", (data) => {
-        toast.success({ message: data.message });
-      });
-      socketInstance.on("request_accepted", (data) => {
-        toast.success({ message: data.message });
-      });
-      socketInstance.on("request_sent", (data) => {
-        toast.success({ message: data.message });
-      });
+      // Check if socketInstance is defined before setting up event listeners
+      if (socketInstance) {
+        // new friend request
+        socketInstance.on("new_friend_request", (data) => {
+          toast.success({ message: data.message });
+        });
+        socketInstance.on("request_accepted", (data) => {
+          toast.success({ message: data.message });
+        });
+        socketInstance.on("request_sent", (data) => {
+          toast.success({ message: data.message });
+        });
+      }
     }
 
     return () => {
@@ -47,7 +41,7 @@ const PrivateRoutes = () => {
         socketInstance.off("request_sent");
       }
     };
-  }, [userIsLoggedIn,token]);
+  }, [userIsLoggedIn, token]);
 
   // console.log("Before Redirection");
   // if (!userIsLoggedIn) {
@@ -57,12 +51,12 @@ const PrivateRoutes = () => {
   // }
   // console.log("After Redirection");
 
-  return(
+  return (
     <>
-    {/* I am reached at outlet */}
-    {token? (<Outlet />): (<Navigate to='/auth/login'/>)}
+      {/* I am reached at outlet */}
+      {token ? <Outlet /> : <Navigate to="/auth/login" />}
     </>
-     )
+  );
 };
 
 export default PrivateRoutes;
