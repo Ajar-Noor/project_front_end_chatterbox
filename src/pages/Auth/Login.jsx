@@ -1,14 +1,13 @@
 import React, { useContext } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../context/AuthContext";
 
 const Login = () => {
   const { state, loggedInUser, updateLogInInfo } = useContext(AuthContext);
-  const { logInError, logIn_Info, isLogInLoading } = state;
+  const { logInError, logIn_Info, isLogInLoading,isUserLoggedIn } = state;
   const navigate=useNavigate();
-  const location=useLocation
 
   // Error toast function
 
@@ -16,6 +15,14 @@ const Login = () => {
     toast.error(logInError?.message);
   };
 
+
+  const handleLoggedInBtn = () => {
+    notify(); 
+
+    if (isUserLoggedIn) {
+      navigate('/'); 
+    }
+  };
   return (
     <div className="bg-[#5B96F7]">
       <div className="flex justify-center items-center h-screen bg-[#5B96F7]">
@@ -57,7 +64,7 @@ const Login = () => {
 
                 <button
                   type="submit"
-                  onClick={notify}
+                  onClick={handleLoggedInBtn}
                   className="btn w-full  border-none hover:bg-[#5B96F7] hover:text-white "
                 >
                   {isLogInLoading ? "Getting you In...." : "LogIn"}

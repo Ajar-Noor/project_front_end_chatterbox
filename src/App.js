@@ -1,6 +1,9 @@
 import React, { lazy, Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 import { Route, Routes } from "react-router-dom";
+import Loader from "./component/Uploads/Loader";
+import { AuthContextProvider } from "./context/AuthContext";
+import PrivateRoutes from "./layout/dashboard/PrivateRoutes";
 const Register = lazy(() => import("./pages/Auth/Register"));
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Main = lazy(() => import("./layout/dashboard"));
@@ -10,9 +13,6 @@ const Group = lazy(() => import("./component/groupChat/Group"));
 const CallPage = lazy(() => import("./component/calls/CallPage"));
 const Profile = lazy(() => import("./component/profile/Profile"));
 const Page404 = lazy(() => import("./pages/Dashboard/page404"));
-import Loader from "./component/Uploads/Loader";
-import { AuthContextProvider } from "./context/AuthContext";
-import PrivateRoutes from "./layout/dashboard/PrivateRoutes";
 
 // 👉 App Component
 const App = () => {

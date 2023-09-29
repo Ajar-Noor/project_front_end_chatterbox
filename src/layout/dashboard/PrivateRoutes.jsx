@@ -8,7 +8,6 @@ const PrivateRoutes = () => {
   console.log("Dashboard Component Rendered");
   const { state } = useContext(AuthContext);
   const { userIsLoggedIn } = state;
-  const location=useLocation()
 
   const token = window.localStorage.getItem("token");
 
@@ -22,7 +21,7 @@ const PrivateRoutes = () => {
           window.location.reload();
         }
       };
-      // window.reload();
+      window.reload();
 
       // Connect the socket and store the instance in the socketInstance variable
       socketInstance = connectSocket(token);
@@ -61,7 +60,7 @@ const PrivateRoutes = () => {
   return(
     <>
     {/* I am reached at outlet */}
-    {token? (<Outlet />): (<Navigate to='/auth/login' replace state={{from:location}}/>)}
+    {token? (<Outlet />): (<Navigate to='/auth/login'/>)}
     </>
      )
 };
